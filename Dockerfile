@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-LABEL org.opencontainers.image.source https://github.com/flxxyz/ip_derper
+LABEL org.opencontainers.image.source=https://github.com/flxxyz/ip_derper
 
 WORKDIR /app
 
@@ -13,21 +13,24 @@ RUN cd /app/tailscale/cmd/derper && \
     rm -rf /app/tailscale
 
 FROM ubuntu:20.04
-WORKDIR /app
 
 # ========= CONFIG =========
 # - derper args
-ENV DERP_ADDR :443
-ENV DERP_HTTP_PORT 80
+ENV DERP_ADDR=:443
+ENV DERP_HTTP_PORT=80
 ENV DERP_HOST=127.0.0.1
 ENV DERP_CERTS=/app/certs/
-ENV DERP_STUN true
-ENV DERP_VERIFY_CLIENTS false
+ENV DERP_STUN=true
+ENV DERP_VERIFY_CLIENTS=false
 # ==========================
 
 # apt
 RUN apt-get update && \
     apt-get install -y openssl curl
+
+WORKDIR /app
+
+USER ubuntu
 
 COPY build_cert.sh /app/
 COPY --from=builder /app/derper /app/derper

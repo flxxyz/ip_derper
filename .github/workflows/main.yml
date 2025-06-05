@@ -37,11 +37,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Runs a single command using the runners shell
-      - name: Build and push Docker images to docker.io and ghcr.io
+      - name: Build and push Docker images to ghcr.io
         uses: docker/build-push-action@v6
         with:
           file: 'Dockerfile'
-          platforms: linux/amd64
+          platforms:
+            - linux/amd64
+            - linux/arm64
           context: ./
           push: true
           tags: |
