@@ -30,8 +30,6 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-USER ubuntu
-
 COPY build_cert.sh /app/
 COPY --from=builder /app/derper /app/derper
 
