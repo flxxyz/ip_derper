@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-LABEL org.opencontainers.image.source https://github.com/yangchuansheng/ip_derper
+LABEL org.opencontainers.image.source https://github.com/flxxyz/ip_derper
 
 WORKDIR /app
 
