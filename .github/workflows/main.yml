@@ -23,6 +23,11 @@ jobs:
           cd tailscale
           sed -i '/hi.ServerName != m.hostname/,+2d' cmd/derper/cert.go
 
+      # 获取 Git commit SHA 前6位
+      - name: Get short SHA
+        id: slug
+        run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -36,7 +41,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Runs a single command using the runners shell
+      # 构建并推送 Docker 镜像
       - name: Build and push Docker images to ghcr.io
         uses: docker/build-push-action@v6
         with:
@@ -47,3 +52,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/flxxyz/ip_derper:latest
+            ghcr.io/flxxyz/ip_derper:${{ steps.slug.outputs.sha_short }}
