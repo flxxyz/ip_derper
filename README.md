@@ -17,6 +17,7 @@ services:
       - 33333:33333
       - 3443:3443
     environment:
+      - DERP_HOST=1.1.1.1 # 你的VPS IP
       - DERP_ADDR=:33333
       - DERP_HTTP_PORT=3443
       - DERP_VERIFY_CLIENTS=true # 如果不验证客户端，可以把 volumes 也注释掉
